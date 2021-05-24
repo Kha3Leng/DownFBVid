@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    // Button COlors
+    <color name="btnPrimary">#e84118</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="GuideDark">#e6242424</color>
+    <color name="colorError">#D50000</color>
+    <color name="colorWarning">#FFA900</color>
+    <color name="colorGray">#dcdde1</color>
+    <color name="colorDarkGray">#212121</color>
+    <color name="colorDarkerGray">#0a0a0a</color>
+</resources>

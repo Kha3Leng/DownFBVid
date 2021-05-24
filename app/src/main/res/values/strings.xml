@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Down FB Vid</string>
+    <string name="instruction1">Copy a video link and press the facebook logo below.</string>
+    <string name="instruction2">After that, open your gallery and peek inside FBVid.</string>
+</resources>
