@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.downfbvid.Interface.VideoDownloader;
+import com.tapadoo.alerter.Alerter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,7 +62,7 @@ public class FBVideoDownloader implements VideoDownloader {
             HttpURLConnection connection;
             BufferedReader reader;
             String title = "fb_"+System.currentTimeMillis();
-            String cleanUrl = "No Video URL";
+            String cleanUrl = "No Url";
             try {
                 URL url = new URL(strings[0]);
                 connection = (HttpURLConnection) url.openConnection();
@@ -80,7 +81,7 @@ public class FBVideoDownloader implements VideoDownloader {
 
                         if (substr1.contains("og:title")){
                             title = substr1.substring(substr1.indexOf("og:title"));
-                            title = title.substring(ordinalIndexOf(title,"\"",1)+1,ordinalIndexOf(title,"\"",2));
+                            vidTitle = title.substring(ordinalIndexOf(title,"\"",1)+1,ordinalIndexOf(title,"\"",2));
                         }
                         cleanUrl = substr1.substring(ordinalIndexOf(substr1,"\"",1)+1,ordinalIndexOf(substr1,"\"",2));
 
@@ -125,14 +126,21 @@ public class FBVideoDownloader implements VideoDownloader {
                 }catch (Exception e) {
                     if (Looper.myLooper()==null)
                         Looper.prepare();
-                    Toast.makeText(context, "Why Video Can't be downloaded! Try Again", Toast.LENGTH_SHORT).show();
+
+                    if (e.getMessage().contains("WRITE_EXTERNAL_STORAGE")) {
+                        String err = e.getMessage();
+                        String str = err.substring(0, err.indexOf(".mp4"));
+                        String initial = str.substring(0, err.lastIndexOf("/"));
+                        String msg = initial + err.substring(err.indexOf(".mp4") + 4);
+                        Toast.makeText(context, "You have denied storage permissions and this app can't download video, the app force close try granting permission from Settings > Apps.", Toast.LENGTH_SHORT).show();
+                    }
                     Looper.loop();
                 }
             }
             else {
                 if (Looper.myLooper()==null)
                     Looper.prepare();
-                Toast.makeText(context, "Wrong Video URL or Check Internet Connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Make sure you have copied facebook video url..", Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }

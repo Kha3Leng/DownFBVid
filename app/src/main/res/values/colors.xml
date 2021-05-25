@@ -15,6 +15,7 @@
     <color name="colorError">#D50000</color>
     <color name="colorWarning">#FFA900</color>
     <color name="colorGray">#dcdde1</color>
+    <color name="status">#7f8fa6</color>
     <color name="colorDarkGray">#212121</color>
     <color name="colorDarkerGray">#0a0a0a</color>
 </resources>

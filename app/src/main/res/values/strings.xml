@@ -2,4 +2,5 @@
     <string name="app_name">Down FB Vid</string>
     <string name="instruction1">Copy a video link and press the facebook logo below.</string>
     <string name="instruction2">After that, open your gallery and peek inside FBVid.</string>
+    <string name="storage_permission_denied"><![CDATA[You have denied storage permissions and this app can\'t download video. Try granting permission from Settings > Apps]]></string>
 </resources>

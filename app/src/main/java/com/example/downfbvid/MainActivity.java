@@ -1,32 +1,44 @@
 package com.example.downfbvid;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.downfbvid.Activity.NoInternetActivity;
 import com.example.downfbvid.Downloader.FBVideoDownloader;
-import com.example.downfbvid.Interface.VideoDownloader;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.BasePermissionListener;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.tapadoo.alerter.Alerter;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import es.dmoral.toasty.Toasty;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public ImageView mFbLogo;
     private ClipboardManager clipboardManager;
     private LayoutInflater layoutInflater;
+    private SharedPreferences sharedPreferences;
     private static final String TAG = MainActivity.class.getSimpleName();
+    public String sharedPref = MainActivity.class.getCanonicalName();
 
     public FBVideoDownloader fbVideoDownloader;
 
@@ -36,12 +48,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        sharedPreferences = getSharedPreferences(sharedPref, MODE_PRIVATE);
+//        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        /*final Window window = getWindow();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            window.setStatusBarColor(0xFF_212121);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                final View decorView = window.getDecorView();
+                decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }*/
 
         setContentView(R.layout.activity_main);
+
+        isFirstTime();
+
+        askPermission();
 
         mFbLogo = findViewById(R.id.FBbtn);
         mFbLogo.setOnClickListener(this);
     }
+
+    public void showAlert(final String title, final String message, final int color) {
+        Alerter.create(this)
+                .setTitle(title)
+                .setText(message)
+                .setBackgroundColorRes(color)
+                .setDuration(5000)
+                .show();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -57,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
 
-
             if(clipboardManager != null){
                 final ClipDescription clipDescription = clipboardManager.getPrimaryClipDescription();
 
@@ -72,10 +108,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-
-
         }
     }
 
+    /**
+     * DO NOT DISABLE THIS SNIPPET OF CODE!!!
+     * If you disable or ignore this snippet of code the app wont work,it will crash or will not Download
+     */
+    private void askPermission() {
+
+
+        /* 1.  Using BasePermissionListener and Toasty library*/
+        Dexter.withContext(this).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new BasePermissionListener() {
+            @Override
+            public void onPermissionDenied(final PermissionDeniedResponse permissionDeniedResponse) {
+//                    Toasty.warning(MainActivity.this, "You have denied storage permissions and this app can't download video," +
+//                                    ", the app force close try granting permission from Settings > Apps.",Toasty.LENGTH_LONG, true).show();
+
+                Toasty.custom(MainActivity.this,
+                                getString(R.string.storage_permission_denied),
+                                ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_baseline_warning_24),
+                                10000,
+                        true).show();
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(final PermissionRequest request, final PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).onSameThread().check();
+
+        /*PermissionListener dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
+                .withContext(this)
+                .withTitle("Storage permission")
+                .withMessage("Storage permission is needed to save video from facebook.")
+                .withButtonText(android.R.string.ok)
+                .withIcon(R.drawable.ic_baseline_warning_24)
+                .build();*/
+        /* 2. Using Dialong */
+        /*Dexter.withContext(this).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(dialogPermissionListener).check();*/
+    }
+
+    // Check if it's the first time the app opens, then do something..
+    public void isFirstTime() {
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // firsttime preference set as true default..
+                final boolean isFirstStart = sharedPreferences.getBoolean("isFirstTime", true);
+
+
+                // check if it's first time, then change isFirstTime to false
+                if(isFirstStart){
+                    showAlert("Hello", "hello", R.color.btnPrimary);
+                    sharedPreferences.edit().putBoolean("isFirstTime", false).apply();
+                }
+
+                handler.removeCallbacks(this);
+            }
+        });
+    }
 
 }

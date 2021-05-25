@@ -10,11 +10,17 @@
         android:id="@+id/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:src="@drawable/logo"
-        android:layout_centerVertical="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bg_logo"
+        android:src="@drawable/bg_logo"
+        android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/logoTitle"
