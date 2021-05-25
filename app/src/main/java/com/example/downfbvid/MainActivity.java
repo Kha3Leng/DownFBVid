@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         final ClipData.Item item = link.getItemAt(0);
                         final String clipboardUrl = item.getText().toString();
                         fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
-                        fbVideoDownloader.getVideoLink();
+                        fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                     }
                 }
             }
