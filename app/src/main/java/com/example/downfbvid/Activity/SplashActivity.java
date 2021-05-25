@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
 
             if (!hasInternet) {
                 // Jumps to No Connection Activity.
-                activityClass = MainActivity.class;
+                activityClass = NoInternetActivity.class;
             } else {
                 // Jumps to Main Activty.
                 activityClass = MainActivity.class;
