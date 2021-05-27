@@ -6,12 +6,10 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +23,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.BasePermissionListener;
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.tapadoo.alerter.Alerter;
 
 import es.dmoral.toasty.Toasty;
@@ -39,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private static final String TAG = MainActivity.class.getSimpleName();
     public String sharedPref = MainActivity.class.getCanonicalName();
+    public static String fb_outside_link = null;
 
     public FBVideoDownloader fbVideoDownloader;
 
@@ -59,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }*/
+        ClipData clipData;
+        if (getIntent() != null && (clipData = getIntent().getClipData()) != null) {
+            clipboardManager.setPrimaryClip(getIntent().getClipData());
+            showAlert("Facebook Link", "Link Copied", R.color.btnPrimary);
+        }
+
 
         setContentView(R.layout.activity_main);
 
@@ -68,6 +71,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFbLogo = findViewById(R.id.FBbtn);
         mFbLogo.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        final Intent fb_intent = getIntent();
+        final String fb_share;
+
+        if(fb_intent != null && (fb_share = fb_intent.getDataString()) != null){
+            fb_outside_link = fb_share;
+        }
+
+        ClipData clipData = ClipData.newPlainText("text label", fb_outside_link);
+        clipboardManager.setPrimaryClip(clipData);
     }
 
     public void showAlert(final String title, final String message, final int color) {
@@ -104,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         final ClipData.Item item = link.getItemAt(0);
                         final String clipboardUrl = item.getText().toString();
                         fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
+                        Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
                         fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                     }
                 }

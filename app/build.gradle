@@ -41,4 +41,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.1.2'
     //Custom Toast Notifications Library
     implementation 'com.github.GrenderG:Toasty:1.5.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
 }

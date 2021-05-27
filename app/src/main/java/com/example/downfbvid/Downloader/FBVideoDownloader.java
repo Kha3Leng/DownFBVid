@@ -4,13 +4,17 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Looper;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
 import com.example.downfbvid.Interface.VideoDownloader;
-import com.tapadoo.alerter.Alerter;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,11 +24,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.content.Context.DOWNLOAD_SERVICE;
+import es.dmoral.toasty.Toasty;
 
 public class FBVideoDownloader implements VideoDownloader {
     private Context context;
@@ -57,6 +60,7 @@ public class FBVideoDownloader implements VideoDownloader {
 
     private class Data extends AsyncTask<String, String,String> {
 
+
         @Override
         protected String doInBackground(String... strings) {
             HttpURLConnection connection;
@@ -66,7 +70,28 @@ public class FBVideoDownloader implements VideoDownloader {
             try {
                 URL url = new URL(strings[0]);
                 connection = (HttpURLConnection) url.openConnection();
+
+                // Set cache none
+                connection.setRequestProperty("Cache-Control", "no-cache");
+                connection.setDefaultUseCaches(false);
+                connection.setUseCaches(false);
                 connection.connect();
+
+                // clear cookies – including Facebook cookie.
+                // otherwise Log In Facebook page will load..
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    CookieManager.getInstance().removeAllCookies(null);
+                    CookieManager.getInstance().flush();
+                } else
+                {
+                    CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(context);
+                    cookieSyncMngr.startSync();
+                    CookieManager cookieManager=CookieManager.getInstance();
+                    cookieManager.removeAllCookie();
+                    cookieManager.removeSessionCookie();
+                    cookieSyncMngr.stopSync();
+                    cookieSyncMngr.sync();
+                }
 
                 InputStream inputStream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -103,15 +128,21 @@ public class FBVideoDownloader implements VideoDownloader {
 
         @Override
         protected void onPostExecute(String s) {
-            if (!s.contains("No url")){
+            if (!s.contains("No Url")){
                 String path = createDirectory();
                 if (vidTitle != null){
+                    try {
+                        vidTitle = fromUnicodeToString(vidTitle);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     vidTitle += ".mp4";
                 }else{
                     vidTitle = "fb_"+System.currentTimeMillis()+".mp4";
                 }
                 try {
                     File newFile = new File(path, vidTitle);
+
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(s));
                     request.allowScanningByMediaScanner();
                     request.setDescription(vidTitle)
@@ -123,6 +154,14 @@ public class FBVideoDownloader implements VideoDownloader {
                     DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
                     assert downloadManager != null;
                     downloadID = downloadManager.enqueue(request);
+
+
+                    if (Looper.myLooper()==null)
+                        Looper.prepare();
+                    Toasty.info(context, "Downloading in progress..", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+
+
                 }catch (Exception e) {
                     if (Looper.myLooper()==null)
                         Looper.prepare();
@@ -132,15 +171,17 @@ public class FBVideoDownloader implements VideoDownloader {
                         String str = err.substring(0, err.indexOf(".mp4"));
                         String initial = str.substring(0, err.lastIndexOf("/"));
                         String msg = initial + err.substring(err.indexOf(".mp4") + 4);
-                        Toast.makeText(context, "You have denied storage permissions and this app can't download video, the app force close try granting permission from Settings > Apps.", Toast.LENGTH_SHORT).show();
+                        Toasty.info(context, "You have denied storage permissions and this app can't download video, the app force close try granting permission from Settings > Apps.", Toast.LENGTH_SHORT).show();
                     }
+
+                    Toasty.info(context, "Downloading Finished", Toasty.LENGTH_LONG).show();
                     Looper.loop();
                 }
             }
             else {
                 if (Looper.myLooper()==null)
                     Looper.prepare();
-                Toast.makeText(context, "Make sure you have copied facebook video url..", Toast.LENGTH_LONG).show();
+                Toasty.info(context, "Make sure you have copied facebook video url..", Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }
@@ -165,6 +206,34 @@ public class FBVideoDownloader implements VideoDownloader {
             urlList.add(gp);
         }
         return urlList;
+    }
+
+    private String fromUnicodeToString(String str) throws JSONException {
+        String hello = str;
+
+        // to unescape unicode entities
+        /*if(hello.contains("&#x")){
+            hello = str.replace("&#x",
+                    "\\u");
+            hello = hello.replace(";",
+                    "");
+
+            // unescape only unicode entites
+            hello = StringEscapeUtils.unescapeJava(hello);
+        }*/
+
+        // to unescape HTML encoding entites
+        if(hello.contains("&#x")){
+            hello = StringEscapeUtils.unescapeHtml4(hello);
+        }
+
+        if (hello.length()>100){
+            hello = str.substring(0, 100);
+        }
+
+
+        return hello;
+
     }
 
     private static int ordinalIndexOf(String str, String substr, int n) {

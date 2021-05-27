@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.downfbvid">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,20 +20,23 @@
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop" />
-        <activity android:name=".Activity.NoInternetActivity">
+            android:launchMode="singleTop">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.SEND" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activity.NoInternetActivity"/>
     </application>
 
 </manifest>
