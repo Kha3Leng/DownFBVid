@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clipboardManager.setPrimaryClip(getIntent().getClipData());
             showAlert("Facebook Link", "Link Copied", R.color.btnPrimary);
         }
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.title_bar_layout);
 
 
         setContentView(R.layout.activity_main);
