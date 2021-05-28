@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hello There.."
                 android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textSize="25dp"
                 android:id="@+id/greeting"/>
 
             <TextView
@@ -61,27 +61,42 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/fb"
+        android:id="@+id/nest"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/fb"
-            android:padding="20dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/logo_bg"
-            android:elevation="5dp"
-            android:foregroundGravity="center"
-            android:id="@+id/FBbtn"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/fb">
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/fb"
+                android:padding="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/logo_bg"
+                android:elevation="5dp"
+                android:foregroundGravity="center"
+                android:id="@+id/FBbtn"/>
 
+        </RelativeLayout>
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/btmNavigation"
+            app:itemBackground="@color/royalBlue"
+            app:menu="@menu/bottom_menu"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

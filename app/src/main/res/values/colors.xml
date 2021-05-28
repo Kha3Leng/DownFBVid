@@ -18,4 +18,8 @@
     <color name="status">#7f8fa6</color>
     <color name="colorDarkGray">#212121</color>
     <color name="colorDarkerGray">#0a0a0a</color>
+
+    <color name="royalBlue">#4267B2</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryRipple">#423F51B5</color>
 </resources>

@@ -4,20 +4,30 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.downfbvid.Activity.DownloadVideoActivity;
 import com.example.downfbvid.Activity.NoInternetActivity;
+import com.example.downfbvid.Activity.SettingActivity;
 import com.example.downfbvid.Downloader.FBVideoDownloader;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -36,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = MainActivity.class.getSimpleName();
     public String sharedPref = MainActivity.class.getCanonicalName();
     public static String fb_outside_link = null;
+    Vibrator vibrator;
+
+    BottomNavigationView bottomNavigationView;
 
     public FBVideoDownloader fbVideoDownloader;
 
@@ -46,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         sharedPreferences = getSharedPreferences(sharedPref, MODE_PRIVATE);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 //        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         /*final Window window = getWindow();
@@ -64,6 +78,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         setContentView(R.layout.activity_main);
+
+        bottomNavigationView = findViewById(R.id.btmNavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home_menu:
+                        Intent intent = new Intent( getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.video_menu:
+                        startActivity(new Intent(getApplicationContext(), DownloadVideoActivity.class));
+                        break;
+                    case R.id.setting_menu:
+                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                        break;
+                }
+                return false;
+            }
+        });
 
         isFirstTime();
 
@@ -97,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         final int id = v.getId();
@@ -121,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         final ClipData.Item item = link.getItemAt(0);
                         final String clipboardUrl = item.getText().toString();
                         fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
+
+                        // vibrator
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                            vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                        }
                         Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
                         fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                     }
@@ -134,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * If you disable or ignore this snippet of code the app wont work,it will crash or will not Download
      */
     private void askPermission() {
-
 
         /* 1.  Using BasePermissionListener and Toasty library*/
         Dexter.withContext(this).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new BasePermissionListener() {
