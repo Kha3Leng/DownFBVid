@@ -40,7 +40,7 @@ import es.dmoral.toasty.Toasty;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public ImageView mFbLogo;
+    public ImageView mFbLogo, mShare, mRate;
     private ClipboardManager clipboardManager;
     private LayoutInflater layoutInflater;
     private SharedPreferences sharedPreferences;
@@ -108,7 +108,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         askPermission();
 
         mFbLogo = findViewById(R.id.FBbtn);
+        mRate = findViewById(R.id.rating);
+        mShare = findViewById(R.id.share);
+
         mFbLogo.setOnClickListener(this);
+        mRate.setOnClickListener(this);
+        mShare.setOnClickListener(this);
     }
 
     @Override
@@ -140,37 +145,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         final int id = v.getId();
 
-        if (id == R.id.FBbtn){
-            final boolean hasInternet = ConnectivityService.isConnected(this);
+        switch(id) {
+            case R.id.FBbtn:
+                final boolean hasInternet = ConnectivityService.isConnected(this);
 
-            if(!hasInternet){
-                startActivity(new Intent(this, NoInternetActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-                return;
-            }
+                if (!hasInternet) {
+                    startActivity(new Intent(this, NoInternetActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                    return;
+                }
 
-            if(clipboardManager != null){
-                final ClipDescription clipDescription = clipboardManager.getPrimaryClipDescription();
+                if (clipboardManager != null) {
+                    final ClipDescription clipDescription = clipboardManager.getPrimaryClipDescription();
 
-                if (clipDescription != null && clipboardManager.hasPrimaryClip() && clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
-                    final ClipData link = clipboardManager.getPrimaryClip();
+                    if (clipDescription != null && clipboardManager.hasPrimaryClip() && clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                        final ClipData link = clipboardManager.getPrimaryClip();
 
-                    if(link != null){
-                        final ClipData.Item item = link.getItemAt(0);
-                        final String clipboardUrl = item.getText().toString();
-                        fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
+                        if (link != null) {
+                            final ClipData.Item item = link.getItemAt(0);
+                            final String clipboardUrl = item.getText().toString();
+                            fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
 
-                        // vibrator
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                            vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                            // vibrator
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                            }
+                            Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
+                            fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                         }
-                        Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
-                        fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                     }
                 }
-            }
+                break;
+            case R.id.rating:
+                Toasty.info(this, "You rated", Toasty.LENGTH_LONG).show();
+                break;
+            case R.id.share:
+//                Toasty.info(this, "You Shared", Toasty.LENGTH_LONG).show();
+                showShareCompat();
+                break;
+
         }
+    }
+
+    private void showShareCompat() {
+        /*File imagePath = new File(getFilesDir(), "external_files");
+        imagePath.mkdir();
+        File imageFile = new File(imagePath.getPath(), "test.jpeg");
+
+        Write data in your file
+
+        Uri uri = FileProvider.getUriForFile(this, getPackageName(), imageFile);
+
+        Intent intent = ShareCompat.IntentBuilder.from(this)
+                .setStream(uri) // uri from FileProvider
+                .setType("text/html")
+                .getIntent()
+                .setAction(Intent.ACTION_VIEW) //Change if needed
+                .setDataAndType(uri, "*\/*")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);*/
+
+        String googlePlayAppLink = "https://play.google.com/store/apps/details?id=com.king.candycrushsaga";
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, "Sharing DownFBVid");
+        i.putExtra(Intent.EXTRA_TEXT, googlePlayAppLink);
+        startActivity(Intent.createChooser(i, "Share Via"));
     }
 
     /**
