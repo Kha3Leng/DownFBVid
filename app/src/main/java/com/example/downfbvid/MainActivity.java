@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -178,13 +179,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.rating:
-                Toasty.info(this, "You rated", Toasty.LENGTH_LONG).show();
+                rateMyApp();
                 break;
             case R.id.share:
 //                Toasty.info(this, "You Shared", Toasty.LENGTH_LONG).show();
                 showShareCompat();
                 break;
 
+        }
+    }
+
+    private void rateMyApp() {
+        final String appPackageName = "com.king.candycrushsaga";
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+appPackageName)));
+        }catch (android.content.ActivityNotFoundException e){
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+appPackageName)));
         }
     }
 
