@@ -40,6 +40,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Rate Us" />
 
             <TextView
@@ -54,6 +55,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Share With Your Friend" />
 
             <TextView
@@ -68,6 +70,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Our Apps" />
 
             <TextView
@@ -82,6 +85,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Privacy Policy" />
 
             <View
@@ -102,6 +106,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="How To Use?" />
 
             <TextView
@@ -116,6 +121,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Demo Video" />
 
             <TextView
@@ -130,6 +136,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Apps Not Working" />
 
             <View
@@ -150,6 +157,7 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="@color/background"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
                 android:text="Feedback" />
 
 
