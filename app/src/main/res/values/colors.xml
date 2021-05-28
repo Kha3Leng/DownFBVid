@@ -19,6 +19,9 @@
     <color name="colorDarkGray">#212121</color>
     <color name="colorDarkerGray">#0a0a0a</color>
 
+    <color name="hintOfPensive">#dcdde1</color>
+    <color name="background">#dfe4ea</color>
+
     <color name="royalBlue">#4267B2</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryRipple">#423F51B5</color>

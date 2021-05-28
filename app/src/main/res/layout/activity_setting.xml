@@ -4,6 +4,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".Activity.SettingActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+
+        android:background="@color/white"
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        app:layout_constraintDimensionRatio="h,6:12"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/rate_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_star_rate_36"
+                android:drawableLeft="@drawable/ic_baseline_star_rate_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Rate Us" />
+
+            <TextView
+                android:id="@+id/share_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_mobile_screen_share_36"
+                android:drawableLeft="@drawable/ic_baseline_star_rate_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Share With Your Friend" />
+
+            <TextView
+                android:id="@+id/other_app_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_apps_36"
+                android:drawableLeft="@drawable/ic_baseline_apps_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Our Apps" />
+
+            <TextView
+                android:id="@+id/policy_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_privacy_tip_36"
+                android:drawableLeft="@drawable/ic_baseline_privacy_tip_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Privacy Policy" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/colorGray" />
+
+            <TextView
+                android:id="@+id/howto_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_verified_user_36"
+                android:drawableLeft="@drawable/ic_baseline_verified_user_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="How To Use?" />
+
+            <TextView
+                android:id="@+id/demo_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_music_video_36"
+                android:drawableLeft="@drawable/ic_baseline_music_video_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Demo Video" />
+
+            <TextView
+                android:id="@+id/notworking_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_error_36"
+                android:drawableLeft="@drawable/ic_baseline_error_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Apps Not Working" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/colorGray" />
+
+            <TextView
+                android:id="@+id/feedback_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/SettingTextStyle"
+                android:drawableStart="@drawable/ic_baseline_email_36"
+                android:drawableLeft="@drawable/ic_baseline_email_36"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/background"
+                android:gravity="center_vertical"
+                android:text="Feedback" />
+
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

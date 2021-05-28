@@ -20,4 +20,10 @@
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="background">@color/royalBlue</item>
     </style>
+
+    <style name="SettingTextStyle" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColorPrimary">@color/status</item>
+        <item name="android:textColor">@color/status</item>
+    </style>
 </resources>
