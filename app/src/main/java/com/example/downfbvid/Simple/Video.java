@@ -1,10 +1,8 @@
 package com.example.downfbvid.Simple;
 
-import android.net.Uri;
-
 public class Video {
     private String title;
-    private Uri uri;
+    private String uri;
     private int duration;
     private int size;
 //    private Bitmap thumbnail;
@@ -13,7 +11,7 @@ public class Video {
         return title;
     }
 
-    public Uri getPath() {
+    public String getPath() {
         return uri;
     }
 
@@ -27,7 +25,7 @@ public class Video {
         return size;
     }
 
-    public Video(String title, Uri path, int duration, int size/*, Bitmap thumbnail*/) {
+    public Video(String title, String path, int duration, int size/*, Bitmap thumbnail*/) {
         this.title = title;
         this.uri = path;
         this.duration = duration;

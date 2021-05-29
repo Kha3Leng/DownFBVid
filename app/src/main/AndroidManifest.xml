@@ -18,14 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DownFBVid">
-        <activity android:name=".Activity.SettingActivity"
+        <activity android:name=".Activity.VideoPlayerActivity"
+            android:parentActivityName=".Activity.DownloadVideoActivity"/>
+        <activity
+            android:name=".Activity.SettingActivity"
             android:label="Setting"
-            android:parentActivityName=".MainActivity"/>
-
-        <activity android:name=".Activity.DownloadVideoActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Activity.DownloadVideoActivity"
             android:label="Downloaded Video"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Activity.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
@@ -49,15 +51,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.NoInternetActivity" />
-        
+
         <provider
-            android:authorities="com.example.downfbvid"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.downfbvid"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_share_path"/>
+                android:resource="@xml/file_share_path" />
         </provider>
     </application>
 

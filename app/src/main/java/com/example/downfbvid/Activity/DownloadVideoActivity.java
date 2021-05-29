@@ -1,6 +1,7 @@
 package com.example.downfbvid.Activity;
 
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,16 +13,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.downfbvid.Adapter.VideoAdapter;
+import com.example.downfbvid.Interface.OnItemClickListener;
 import com.example.downfbvid.R;
 import com.example.downfbvid.Simple.Video;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class DownloadVideoActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    ArrayList<Video> videoArrayList;
+    public ArrayList<Video> videoArrayList;
     VideoAdapter videoAdapter;
 
     @Override
@@ -34,9 +39,22 @@ public class DownloadVideoActivity extends AppCompatActivity {
         loadingVideoData();
 
         mRecyclerView = findViewById(R.id.videoRecyclerView);
-        videoAdapter = new VideoAdapter(this, videoArrayList);
+        videoAdapter = new VideoAdapter(this, videoArrayList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Video video) {
+                Toasty.info(getApplicationContext(), "You choose " + video.getTitle(), Toasty.LENGTH_LONG).show();
+//                startActivity(new Intent(getApplicationContext(), VideoPlayerActivity.class));
+                Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
+                Gson gson = new Gson();
+                String videoJson = gson.toJson(video);
+                intent.putExtra("video", videoJson);
+
+                startActivity(intent);
+            }
+        });
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(videoAdapter);
+
 
     }
 
@@ -70,7 +88,7 @@ public class DownloadVideoActivity extends AppCompatActivity {
             int duration = videoCursor.getInt(durationCol);
             int size = videoCursor.getInt(sizeCol);
 
-            Uri contentUri = ContentUris.withAppendedId(collection, id);
+            String contentUri = ContentUris.withAppendedId(collection, id).toString();
 
             Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(getContentResolver(), id, MediaStore.Video.Thumbnails.MICRO_KIND, null);
 
