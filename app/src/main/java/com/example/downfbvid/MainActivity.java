@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
         ClipData clipData;
         if (getIntent() != null && (clipData = getIntent().getClipData()) != null) {
-            clipboardManager.setPrimaryClip(getIntent().getClipData());
+            clipboardManager.setPrimaryClip(clipData);
             showAlert("Facebook Link", "Link Copied", R.color.btnPrimary);
         }
 
@@ -160,21 +160,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (clipboardManager != null) {
                     final ClipDescription clipDescription = clipboardManager.getPrimaryClipDescription();
 
-                    if (clipDescription != null && clipboardManager.hasPrimaryClip() && clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                    if (clipboardManager.hasPrimaryClip()) {
                         final ClipData link = clipboardManager.getPrimaryClip();
 
-                        if (link != null) {
-                            final ClipData.Item item = link.getItemAt(0);
-                            final String clipboardUrl = item.getText().toString();
-                            fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
+                        if(link.getItemCount() > 0){
+                            CharSequence linkChar = link.getItemAt(0).coerceToText(this);
+                            String clipboardUrl = linkChar.toString();
+                            if(clipboardUrl != null && clipboardUrl != ""){
+                                fbVideoDownloader = new FBVideoDownloader(this, clipboardUrl);
 
-                            // vibrator
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                                // vibrator
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                                }
+                                Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
+                                fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
+                            }else{
+                                // if clipboard manager is null
+                                Alerter.create(this)
+                                        .setText("Try copy facebook video link first..")
+                                        .setDuration(10000)
+                                        .setBackgroundColorRes(R.color.btnPrimary)
+                                        .show();
                             }
-                            Toasty.info(this, "Loading...", Toasty.LENGTH_LONG).show();
-                            fbVideoDownloader.downloadVideo(clipboardUrl, "hello");
                         }
+
                     }
                 }
                 break;

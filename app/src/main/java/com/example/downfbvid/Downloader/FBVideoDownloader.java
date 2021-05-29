@@ -68,15 +68,6 @@ public class FBVideoDownloader implements VideoDownloader {
             String title = "fb_"+System.currentTimeMillis();
             String cleanUrl = "No Url";
             try {
-                URL url = new URL(strings[0]);
-                connection = (HttpURLConnection) url.openConnection();
-
-                // Set cache none
-                connection.setRequestProperty("Cache-Control", "no-cache");
-                connection.setDefaultUseCaches(false);
-                connection.setUseCaches(false);
-                connection.connect();
-
                 // clear cookies – including Facebook cookie.
                 // otherwise Log In Facebook page will load..
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -92,6 +83,15 @@ public class FBVideoDownloader implements VideoDownloader {
                     cookieSyncMngr.stopSync();
                     cookieSyncMngr.sync();
                 }
+                URL url = new URL(strings[0]);
+                connection = (HttpURLConnection) url.openConnection();
+
+                // Set cache none
+                connection.setRequestProperty("Cache-Control", "no-cache");
+                connection.setDefaultUseCaches(false);
+                connection.setUseCaches(false);
+                connection.setRequestMethod("POST");
+                connection.connect();
 
                 InputStream inputStream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
