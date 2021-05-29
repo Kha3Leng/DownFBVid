@@ -1,12 +1,11 @@
 package com.example.downfbvid.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.downfbvid.R;
 
@@ -29,9 +28,13 @@ public class NoInternetActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
                 break;
-            case R.id.close:
-                finish();
+            case R.id.downloaded_video:
+                startActivity(new Intent(this, DownloadVideoActivity.class));
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
+            /*case R.id.close:
+                finish();
+                break;*/
             default:
                 Toasty.info(view.getContext(), "What...");
         }

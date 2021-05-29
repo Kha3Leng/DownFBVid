@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.downfbvid.R;
 import com.example.downfbvid.Simple.Video;
 
@@ -38,20 +40,28 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public int getItemCount() {
-        return 0;
+        return videoArrayList.size();
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
-        private Video video;
+    public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ImageView mImageView;
+
         private TextView mTitle;
 
         public void bindTo(Video video){
-            this.mTitle.setText(video.getTitle().toString());
+            this.mTitle.setText(video.getTitle());
+            Glide.with(context).load(video.getPath()).into(mImageView);
         }
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             this.mTitle = itemView.findViewById(R.id.video_title);
+            this.mImageView = itemView.findViewById(R.id.thumbnail_view);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

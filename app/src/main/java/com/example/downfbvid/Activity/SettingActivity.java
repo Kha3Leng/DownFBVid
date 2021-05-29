@@ -19,25 +19,6 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        mRate = findViewById(R.id.rate_setting);
-        mShare = findViewById(R.id.share_setting);
-        mApps = findViewById(R.id.other_app_setting);
-        mPolicy = findViewById(R.id.policy_setting);
-        mHowTo = findViewById(R.id.howto_setting);
-        mDemo = findViewById(R.id.demo_setting);
-        mNotWorking = findViewById(R.id.notworking_setting);
-        mFeedback = findViewById(R.id.feedback_setting);
-
-
-        mRate.setOnClickListener(this::onClick);
-        mShare.setOnClickListener(this::onClick);
-        mApps.setOnClickListener(this::onClick);
-        mPolicy.setOnClickListener(this::onClick);
-        mHowTo.setOnClickListener(this::onClick);
-        mDemo.setOnClickListener(this::onClick);
-        mNotWorking.setOnClickListener(this::onClick);
-        mFeedback.setOnClickListener(this::onClick);
-
     }
 
     public void onClick(View view) {
