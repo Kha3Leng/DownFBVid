@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,8 +56,34 @@ public class DownloadVideoActivity extends AppCompatActivity {
         });
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(videoAdapter);
+        registerForContextMenu(mRecyclerView);
 
+    }
 
+    /*@Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select Actions");
+        menu.add(0, v.getId(), 0, "Share This Video");
+        menu.add(0, v.getId(), 0, "Delete This Video");
+        menu.add(0, v.getId(), 0, "Play This Video");
+    }*/
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        super.onContextItemSelected(item);
+        switch (item.getTitle().toString()){
+            case "Share This Video":
+                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
+                break;
+            case "Delete This Video":
+                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
+                break;
+            case "Play This Video":
+                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
     private void loadingVideoData() {

@@ -2,6 +2,7 @@ package com.example.downfbvid.Adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videoArrayList.size();
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private ImageView mImageView;
         private TextView mTitle;
 
@@ -64,6 +65,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     listener.onItemClick(video);
                 }
             });
+
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public VideoViewHolder(@NonNull View itemView) {
@@ -72,9 +75,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             this.mImageView = itemView.findViewById(R.id.thumbnail_view);
         }
 
+
         @Override
-        public void onClick(View v) {
-            int id = v.getId();
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+            menu.add(0, v.getId(), 0, "Share This Video");
+            menu.add(0, v.getId(), 0, "Delete This Video");
+            menu.add(0, v.getId(), 0, "Play This Video");
         }
     }
 }
