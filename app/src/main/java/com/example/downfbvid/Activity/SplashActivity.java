@@ -1,7 +1,5 @@
 package com.example.downfbvid.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,9 +9,14 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.downfbvid.MainActivity;
 import com.example.downfbvid.R;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 public class SplashActivity extends AppCompatActivity {
     public boolean hasInternet;
@@ -36,6 +39,12 @@ public class SplashActivity extends AppCompatActivity {
 
         // Bind Activity with xml
         setContentView(R.layout.activity_splash);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
 
         showScreen();
     }

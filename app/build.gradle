@@ -11,6 +11,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -52,5 +53,9 @@ dependencies {
 
     // object to json converter for intent bundle
     implementation 'com.google.code.gson:gson:2.8.4'
+
+    // ad mobs
+    implementation 'com.google.android.gms:play-services-ads:20.1.0'
+    implementation 'com.android.support:multidex:1.0.3'
 
 }

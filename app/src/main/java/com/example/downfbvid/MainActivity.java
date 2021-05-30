@@ -29,6 +29,8 @@ import com.example.downfbvid.Activity.NoInternetActivity;
 import com.example.downfbvid.Activity.SettingActivity;
 import com.example.downfbvid.Downloader.FBVideoDownloader;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = MainActivity.class.getSimpleName();
     public String sharedPref = MainActivity.class.getCanonicalName();
     public static String fb_outside_link = null;
+    public AdView adView;
     Vibrator vibrator;
 
     BottomNavigationView bottomNavigationView;
@@ -83,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         setContentView(R.layout.activity_main);
+
+        adView = findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         bottomNavigationView = findViewById(R.id.btmNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
