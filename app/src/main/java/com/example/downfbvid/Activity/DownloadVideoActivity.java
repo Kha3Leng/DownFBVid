@@ -16,6 +16,8 @@ import com.example.downfbvid.Adapter.VideoAdapter;
 import com.example.downfbvid.Interface.OnItemClickListener;
 import com.example.downfbvid.R;
 import com.example.downfbvid.Simple.Video;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class DownloadVideoActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     public ArrayList<Video> videoArrayList;
     VideoAdapter videoAdapter;
-
+    AdView adView1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,9 @@ public class DownloadVideoActivity extends AppCompatActivity {
 //        getSupportActionBar().setCustomView(R.layout.download_title_action_bar)
 //        getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Downloaded Video" + "</font>")));
         setContentView(R.layout.activity_download_video);
-
+        adView1 = findViewById(R.id.adView1);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView1.loadAd(adRequest);
         videoArrayList = new ArrayList<>();
 
         loadingVideoData();
