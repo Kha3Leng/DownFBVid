@@ -7,9 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +32,10 @@ public class DownloadVideoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.download_title_action_bar)
+//        getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Downloaded Video" + "</font>")));
         setContentView(R.layout.activity_download_video);
 
         videoArrayList = new ArrayList<>();
@@ -56,7 +58,6 @@ public class DownloadVideoActivity extends AppCompatActivity {
         });
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(videoAdapter);
-        registerForContextMenu(mRecyclerView);
 
     }
 
@@ -68,23 +69,6 @@ public class DownloadVideoActivity extends AppCompatActivity {
         menu.add(0, v.getId(), 0, "Delete This Video");
         menu.add(0, v.getId(), 0, "Play This Video");
     }*/
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        super.onContextItemSelected(item);
-        switch (item.getTitle().toString()){
-            case "Share This Video":
-                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
-                break;
-            case "Delete This Video":
-                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
-                break;
-            case "Play This Video":
-                Toasty.info(this, "You Choose "+item.getTitle().toString(), Toasty.LENGTH_SHORT).show();
-                break;
-        }
-        return true;
-    }
 
     private void loadingVideoData() {
         System.gc();
@@ -120,7 +104,7 @@ public class DownloadVideoActivity extends AppCompatActivity {
 
             Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(getContentResolver(), id, MediaStore.Video.Thumbnails.MICRO_KIND, null);
 
-            videoArrayList.add(new Video(title, contentUri, duration, size/*, thumbnail*/));
+            videoArrayList.add(new Video(id, title, contentUri, duration, size/*, thumbnail*/));
         }
     }
 

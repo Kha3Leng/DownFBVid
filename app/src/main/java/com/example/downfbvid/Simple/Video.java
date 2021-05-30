@@ -1,6 +1,7 @@
 package com.example.downfbvid.Simple;
 
 public class Video {
+    private long vidId;
     private String title;
     private String uri;
     private int duration;
@@ -25,7 +26,12 @@ public class Video {
         return size;
     }
 
-    public Video(String title, String path, int duration, int size/*, Bitmap thumbnail*/) {
+    public long getVidId() {
+        return vidId;
+    }
+
+    public Video(long vidId, String title, String path, int duration, int size/*, Bitmap thumbnail*/) {
+        this.vidId = vidId;
         this.title = title;
         this.uri = path;
         this.duration = duration;

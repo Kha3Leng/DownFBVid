@@ -13,22 +13,20 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="actionMenuTextColor">@color/white</item>
-        <item name="android:dropDownListViewStyle">@style/AppTheme.DropDownList</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="subtitleTextColor">@color/white</item>
     </style>
 
-    <style name="AppTheme.DropDownList" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:background">@color/white</item>
-    </style>
 
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="background">@color/royalBlue</item>
     </style>
 
+
     <style name="SettingTextStyle" parent="Theme.MaterialComponents.DayNight">
         <item name="android:textSize">18sp</item>
         <item name="android:textColorPrimary">@color/status</item>
         <item name="android:textColor">@color/status</item>
-
+        <item name="titleTextColor">@color/white</item>
     </style>
 </resources>

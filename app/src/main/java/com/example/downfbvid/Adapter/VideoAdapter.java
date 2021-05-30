@@ -1,8 +1,11 @@
 package com.example.downfbvid.Adapter;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
-import android.view.ContextMenu;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.downfbvid.Activity.VideoPlayerActivity;
 import com.example.downfbvid.Interface.OnItemClickListener;
 import com.example.downfbvid.R;
 import com.example.downfbvid.Simple.Video;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
     Context context;
@@ -48,11 +56,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videoArrayList.size();
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class VideoViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private ImageView mImageView;
+        private Video video;
         private TextView mTitle;
 
         public void bindTo(Video video, OnItemClickListener listener){
+            this.video = video;
             this.mTitle.setText(video.getTitle());
 
             // load thumbnail of the video
@@ -66,7 +76,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 }
             });
 
-            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public VideoViewHolder(@NonNull View itemView) {
@@ -75,13 +85,49 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             this.mImageView = itemView.findViewById(R.id.thumbnail_view);
         }
 
-
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        public boolean onLongClick(View v) {
+            final CharSequence[] items = {"Share This Video",
+                                        "Delete This Video",
+                                        "Play This Video"};
+            AlertDialog.Builder menuAlertBuilder = new AlertDialog.Builder(context);
+            menuAlertBuilder.setTitle("Choose Actions");
+            menuAlertBuilder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch(which){
+                        case 0:
+                            Toasty.info(context, "You Shared "+ video.getTitle(), Toasty.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("video/mp4");
+                            intent.putExtra(Intent.EXTRA_SUBJECT, video.getTitle());
+                            intent.putExtra(Intent.EXTRA_TITLE, video.getTitle());
+                            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(video.getPath()));
+                            context.startActivity(Intent.createChooser(intent, "Share Via"));
+                            break;
+                        case 1:
+                            Toasty.info(context, "You Deleted  "+ video.getTitle(), Toasty.LENGTH_SHORT).show();
+                            Uri vidUrl = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, video.getVidId());
+                            context.getContentResolver().delete(vidUrl, null, null);
 
-            menu.add(0, v.getId(), 0, "Share This Video");
-            menu.add(0, v.getId(), 0, "Delete This Video");
-            menu.add(0, v.getId(), 0, "Play This Video");
+                            // Send intent to refresh media store after deletion of video
+                            // context.startActivity(new Intent(context, DownloadVideoActivity.class));
+
+                            break;
+                        case 2:
+                            Toasty.info(context, "You Played "+ video.getTitle(), Toasty.LENGTH_SHORT).show();
+                            Intent playintent = new Intent(context, VideoPlayerActivity.class);
+                            Gson gson = new Gson();
+                            String videoJson = gson.toJson(video);
+                            playintent.putExtra("video", videoJson);
+
+                            context.startActivity(playintent);
+                            break;
+                    }
+                }
+            });
+            menuAlertBuilder.show();
+            return true;
         }
     }
 }
