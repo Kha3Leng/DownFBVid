@@ -29,8 +29,10 @@ import com.example.downfbvid.Activity.NoInternetActivity;
 import com.example.downfbvid.Activity.SettingActivity;
 import com.example.downfbvid.Downloader.FBVideoDownloader;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = MainActivity.class.getSimpleName();
     public String sharedPref = MainActivity.class.getCanonicalName();
     public static String fb_outside_link = null;
-    public AdView adView;
+    public AdView madView;
     Vibrator vibrator;
 
     BottomNavigationView bottomNavigationView;
@@ -87,10 +89,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        adView = findViewById(R.id.adView);
+        madView = findViewById(R.id.adView);
 
         AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        madView.loadAd(adRequest);
+
+        madView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Toasty.info(getApplicationContext(), "Ad Loaded", Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+                Toasty.info(getApplicationContext(), "Ad Fail ot load", Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+                Toasty.info(getApplicationContext(), "Ad Opened", Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+                Toasty.info(getApplicationContext(), "Ad Clicked", Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+                Toasty.info(getApplicationContext(), "Ad CLosed", Toasty.LENGTH_SHORT).show();
+            }
+        });
 
         bottomNavigationView = findViewById(R.id.btmNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
