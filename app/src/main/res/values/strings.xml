@@ -3,4 +3,11 @@
     <string name="instruction1">Copy a video link and press the facebook logo below.</string>
     <string name="instruction2">After that, open your gallery and peek inside FBVid.</string>
     <string name="storage_permission_denied"><![CDATA[You have denied storage permissions and this app can\'t download video. Try granting permission from Settings > Apps]]></string>
+    <string name="howto">Step 1 &#8658; Open Facebook.\n
+        Step 2 &#8658; Click share of Facebook Video Post.\n
+        Step 3 &#8658; Share to DownFBVid.\n
+        Step 4 &#8658; Click Facebook Logo.\n
+        Step 5 &#8658; Video is Downloaded.\n
+        Step 6 &#8658; View it in Downloaded Video Page.
+    </string>
 </resources>

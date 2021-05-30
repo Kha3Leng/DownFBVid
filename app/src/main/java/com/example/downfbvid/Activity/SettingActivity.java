@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.downfbvid.R;
 import com.example.downfbvid.Simple.AdsManager;
 import com.google.android.gms.ads.AdView;
+
+import es.dmoral.toasty.Toasty;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -43,14 +46,43 @@ public class SettingActivity extends AppCompatActivity {
                 showPolicy();
                 break;
             case R.id.howto_setting:
+                showHowTo();
                 break;
             case R.id.demo_setting:
+                showDemo();
                 break;
             case R.id.notworking_setting:
+                reportDev("App Not Working", "App Not Working");
                 break;
             case R.id.feedback_setting:
+                reportDev("Feedback", "Your app can be improved..");
                 break;
         }
+    }
+
+    private void reportDev(String subject, String body) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"+"lover.music.sick@gmail.com"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+
+    private void showDemo() {
+        Toasty.info(this, "Demo Video Unavailable", Toasty.LENGTH_SHORT).show();
+    }
+
+
+    private void showHowTo() {
+        AlertDialog.Builder howTo = new AlertDialog.Builder(this);
+        howTo.setTitle("How To Use");
+        howTo.setMessage(R.string.howto);
+        howTo.setCancelable(true);
+        howTo.setPositiveButton("OK", null);
+        howTo.show();
+
     }
 
     private void showPolicy() {
