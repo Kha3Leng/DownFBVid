@@ -70,7 +70,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -95,6 +94,7 @@
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"

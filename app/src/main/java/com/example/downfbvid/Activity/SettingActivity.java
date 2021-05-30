@@ -9,16 +9,21 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.downfbvid.R;
+import com.example.downfbvid.Simple.AdsManager;
+import com.google.android.gms.ads.AdView;
 
 public class SettingActivity extends AppCompatActivity {
 
     private TextView mRate, mShare, mApps, mPolicy, mHowTo, mDemo, mNotWorking, mFeedback;
+    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
+        AdsManager adsManager = new AdsManager(this);
+        adView = findViewById(R.id.adView2);
+        adView.loadAd(adsManager.getAdRequest());
     }
 
     public void onClick(View view) {

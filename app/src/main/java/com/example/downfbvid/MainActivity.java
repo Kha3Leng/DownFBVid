@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -29,9 +31,11 @@ import com.example.downfbvid.Activity.NoInternetActivity;
 import com.example.downfbvid.Activity.SettingActivity;
 import com.example.downfbvid.Downloader.FBVideoDownloader;
 import com.example.downfbvid.Service.ConnectivityService;
+import com.example.downfbvid.Simple.AdsManager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
@@ -54,10 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String fb_outside_link = null;
     public AdView madView;
     Vibrator vibrator;
+    public AdsManager adsManager;
+    Button button;
 
     BottomNavigationView bottomNavigationView;
 
     public FBVideoDownloader fbVideoDownloader;
+    InterstitialAd minterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,42 +96,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        madView = findViewById(R.id.adView);
+        minterstitialAd = new InterstitialAd(this);
+        adsManager = new AdsManager(this);
+        minterstitialAd = adsManager.getInterstitialAd();
 
+        // This is required for Interstitials ads to display.
+        /*minterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                if(minterstitialAd.isLoaded()){
+                    minterstitialAd.show();
+                }
+            }
+        });*/
+
+        madView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         madView.loadAd(adRequest);
-
         madView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
-                Toasty.info(getApplicationContext(), "Ad Loaded", Toasty.LENGTH_SHORT).show();
+                Log.i(TAG, "onAdLoaded: ad loaded");
             }
 
             @Override
             public void onAdFailedToLoad(LoadAdError adError) {
                 // Code to be executed when an ad request fails.
-                Toasty.info(getApplicationContext(), "Ad Fail ot load", Toasty.LENGTH_SHORT).show();
+                Log.i(TAG, "onAdFailedToLoad: failed to load");
             }
 
             @Override
             public void onAdOpened() {
                 // Code to be executed when an ad opens an overlay that
                 // covers the screen.
-                Toasty.info(getApplicationContext(), "Ad Opened", Toasty.LENGTH_SHORT).show();
+                Log.i(TAG, "onAdOpened: ad opened");
             }
 
             @Override
             public void onAdClicked() {
                 // Code to be executed when the user clicks on an ad.
-                Toasty.info(getApplicationContext(), "Ad Clicked", Toasty.LENGTH_SHORT).show();
+                Log.i(TAG, "onAdClicked: ad is clicked");
             }
 
             @Override
             public void onAdClosed() {
                 // Code to be executed when the user is about to return
                 // to the app after tapping on an ad.
-                Toasty.info(getApplicationContext(), "Ad CLosed", Toasty.LENGTH_SHORT).show();
+                Log.i(TAG, "onAdClosed: closed");
             }
         });
 
@@ -132,9 +150,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.home_menu:
-                        Intent intent = new Intent( getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.video_menu:
@@ -159,6 +177,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFbLogo.setOnClickListener(this);
         mRate.setOnClickListener(this);
         mShare.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adsManager.getInterstitialAd();
     }
 
     @Override

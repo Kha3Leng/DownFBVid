@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.downfbvid.Adapter.VideoAdapter;
 import com.example.downfbvid.Interface.OnItemClickListener;
 import com.example.downfbvid.R;
+import com.example.downfbvid.Simple.AdsManager;
 import com.example.downfbvid.Simple.Video;
-import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,6 +33,12 @@ public class DownloadVideoActivity extends AppCompatActivity {
     public ArrayList<Video> videoArrayList;
     VideoAdapter videoAdapter;
     AdView adView1;
+    InterstitialAd minterstitialAd;
+
+    public AdsManager adsManager;
+
+    private static final String TAG = DownloadVideoActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +47,34 @@ public class DownloadVideoActivity extends AppCompatActivity {
 //        getSupportActionBar().setCustomView(R.layout.download_title_action_bar)
 //        getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Downloaded Video" + "</font>")));
         setContentView(R.layout.activity_download_video);
-        adView1 = findViewById(R.id.adView1);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView1.loadAd(adRequest);
-        videoArrayList = new ArrayList<>();
 
+
+
+        minterstitialAd = new InterstitialAd(this);
+        adsManager = new AdsManager(getApplicationContext());
+        adView1 = findViewById(R.id.adView1);
+        adsManager.createBannerAds(adView1);
+
+        /*MobileAds.initialize(DownloadVideoActivity.this,
+                "ca-app-pub-3940256099942544/1033173712");*/
+        minterstitialAd = adsManager.getInterstitialAd();
+
+        // this is required to display Interstitial ads
+        minterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if(minterstitialAd != null){
+                    if(minterstitialAd.isLoaded()){
+                        minterstitialAd.show();
+                    }
+                }
+            }
+        });
+
+
+        // Populating array with Video data
+        videoArrayList = new ArrayList<>();
         loadingVideoData();
 
         mRecyclerView = findViewById(R.id.videoRecyclerView);
@@ -51,7 +82,6 @@ public class DownloadVideoActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Video video) {
                 Toasty.info(getApplicationContext(), "You choose " + video.getTitle(), Toasty.LENGTH_LONG).show();
-//                startActivity(new Intent(getApplicationContext(), VideoPlayerActivity.class));
                 Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
                 Gson gson = new Gson();
                 String videoJson = gson.toJson(video);
@@ -62,20 +92,16 @@ public class DownloadVideoActivity extends AppCompatActivity {
         });
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(videoAdapter);
-
     }
-
-    /*@Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select Actions");
-        menu.add(0, v.getId(), 0, "Share This Video");
-        menu.add(0, v.getId(), 0, "Delete This Video");
-        menu.add(0, v.getId(), 0, "Play This Video");
-    }*/
 
     private void loadingVideoData() {
         System.gc();
+
+        if(minterstitialAd != null){
+            if(minterstitialAd.isLoaded()){
+                minterstitialAd.show();
+            }
+        }
 
         Uri collection = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String[] projections = {MediaStore.Video.Media._ID,
@@ -110,7 +136,7 @@ public class DownloadVideoActivity extends AppCompatActivity {
 
             videoArrayList.add(new Video(id, title, contentUri, duration, size/*, thumbnail*/));
         }
-    }
 
+    }
 
 }

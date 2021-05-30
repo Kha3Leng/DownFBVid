@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,10 +19,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import es.dmoral.toasty.Toasty;
-
 public class SplashActivity extends AppCompatActivity {
     public boolean hasInternet;
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,8 @@ public class SplashActivity extends AppCompatActivity {
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Toasty.info(getApplicationContext(), "Ads Loading..", Toasty.LENGTH_LONG).show();
+//                Toasty.info(getApplicationContext(), "Ads Loading..", Toasty.LENGTH_LONG).show();
+                Log.i(TAG, "onInitializationComplete: initialization of ads finished");
             }
         });
 
@@ -65,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             startIntent(activityClass);
-        }, 3000);
+        }, 1000);
     }
 
     private void startIntent(Class<? extends Activity> activityClass) {
