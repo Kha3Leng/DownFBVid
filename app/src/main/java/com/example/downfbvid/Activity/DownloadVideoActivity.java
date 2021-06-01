@@ -97,12 +97,6 @@ public class DownloadVideoActivity extends AppCompatActivity {
     private void loadingVideoData() {
         System.gc();
 
-        if(minterstitialAd != null){
-            if(minterstitialAd.isLoaded()){
-                minterstitialAd.show();
-            }
-        }
-
         Uri collection = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String[] projections = {MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.DATA,
