@@ -43,7 +43,7 @@ public class FBVideoDownloader implements VideoDownloader {
 
     @Override
     public String createDirectory() {
-        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "FBVid" );
+        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Download/FBVid" );
         boolean success = true;
 
         if(!folder.exists()){
