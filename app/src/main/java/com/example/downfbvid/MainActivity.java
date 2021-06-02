@@ -84,11 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }*/
-        ClipData clipData;
-        if (getIntent() != null && (clipData = getIntent().getClipData()) != null) {
-            clipboardManager.setPrimaryClip(clipData);
-            showAlert("Facebook Link", "Link Copied", R.color.btnPrimary);
-        }
+
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.title_bar_layout);
@@ -188,15 +184,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        final Intent fb_intent = getIntent();
-        final String fb_share;
-
-        if(fb_intent != null && (fb_share = fb_intent.getDataString()) != null){
-            fb_outside_link = fb_share;
+        ClipData fb_share;
+        if (intent != null && (fb_share = intent.getClipData()) != null){
+            String fb_share_link = fb_share
+                    .getItemAt(0)
+                    .coerceToText(this).toString();
+            ClipData clipData = ClipData.newPlainText("text label", fb_share_link);
+            clipboardManager.setPrimaryClip(clipData);
+            showAlert("Facebook Link", "Link Copied", R.color.btnPrimary);
         }
-
-        ClipData clipData = ClipData.newPlainText("text label", fb_outside_link);
-        clipboardManager.setPrimaryClip(clipData);
     }
 
     public void showAlert(final String title, final String message, final int color) {

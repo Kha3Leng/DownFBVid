@@ -36,7 +36,8 @@
         <activity
             android:name=".Activity.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            android:hardwareAccelerated="true" >
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,10 +47,8 @@
         <activity
             android:name=".MainActivity"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <action android:name="android.intent.action.SEND" />

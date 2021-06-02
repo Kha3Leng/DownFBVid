@@ -1,6 +1,8 @@
 package com.example.downfbvid.Activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -22,7 +24,8 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 public class SplashActivity extends AppCompatActivity {
     public boolean hasInternet;
     private static final String TAG = SplashActivity.class.getSimpleName();
-
+    private ClipboardManager clipboardManager;
+    private Intent shareIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
         // Check if internet is available
         hasInternet = ConnectivityService.isConnected(this);
         
-        // if KitKat do something..
         //Kitkat translucent statusbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             setTranslucentStatus();
@@ -51,6 +53,13 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
+        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+        ClipData clipData;
+        shareIntent = getIntent();
+        if(shareIntent != null && (clipData = shareIntent.getClipData()) != null) {
+            clipboardManager.setPrimaryClip(clipData);
+        }
         showScreen();
     }
 
@@ -71,7 +80,18 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startIntent(Class<? extends Activity> activityClass) {
-        startActivity(new Intent(this, activityClass).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        Intent carryIntent = new Intent(this, activityClass);
+        /*if (clipboardManager.hasPrimaryClip() && shareIntent != null
+        && shareIntent.getClipData() != null){
+            carryIntent.putExtra("fromLink", "yes");
+            carryIntent.putExtra("vidLink", clipboardManager
+            .getPrimaryClip()
+            .getItemAt(0)
+            .coerceToText(this).toString());
+        }else{
+            carryIntent.putExtra("fromLink", "no");
+        }*/
+        startActivity(carryIntent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         finish();
     }
