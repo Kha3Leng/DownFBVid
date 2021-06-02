@@ -36,8 +36,17 @@
         <activity
             android:name=".Activity.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:hardwareAccelerated="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,14 +55,7 @@
                 <action android:name="android.intent.action.SEND" />
 
                 <data android:mimeType="text/plain" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:hardwareAccelerated="true"
-            android:launchMode="singleTask">
         </activity>
         <activity android:name=".Activity.NoInternetActivity"
             android:launchMode="singleTask"/>
