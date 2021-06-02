@@ -21,29 +21,23 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/>
         <activity android:name=".Activity.VideoPlayerActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".Activity.DownloadVideoActivity"/>
         <activity
             android:name=".Activity.SettingActivity"
             android:label="Setting"
+            android:launchMode="singleTask"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Activity.DownloadVideoActivity"
             android:label="Downloaded Video"
+            android:launchMode="singleTask"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Activity.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            android:hardwareAccelerated="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,9 +46,17 @@
                 <action android:name="android.intent.action.SEND" />
 
                 <data android:mimeType="text/plain" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.NoInternetActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".Activity.NoInternetActivity"
+            android:launchMode="singleTask"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

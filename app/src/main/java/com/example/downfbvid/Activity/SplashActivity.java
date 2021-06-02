@@ -23,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
     public boolean hasInternet;
     private static final String TAG = SplashActivity.class.getSimpleName();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
