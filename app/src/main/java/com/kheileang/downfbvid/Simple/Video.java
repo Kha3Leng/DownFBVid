@@ -1,4 +1,4 @@
-package com.example.downfbvid.Simple;
+package com.kheileang.downfbvid.Simple;
 
 public class Video {
     private long vidId;

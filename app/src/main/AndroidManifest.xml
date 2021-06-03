@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.downfbvid">
+    package="com.kheileang.downfbvid">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,21 +20,21 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/>
-        <activity android:name=".Activity.VideoPlayerActivity"
+        <activity android:name="com.kheileang.downfbvid.Activity.VideoPlayerActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activity.DownloadVideoActivity"/>
+            android:parentActivityName="com.kheileang.downfbvid.Activity.DownloadVideoActivity"/>
         <activity
-            android:name=".Activity.SettingActivity"
+            android:name="com.kheileang.downfbvid.Activity.SettingActivity"
             android:label="Setting"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.kheileang.downfbvid.MainActivity" />
         <activity
-            android:name=".Activity.DownloadVideoActivity"
+            android:name="com.kheileang.downfbvid.Activity.DownloadVideoActivity"
             android:label="Downloaded Video"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.kheileang.downfbvid.MainActivity" />
         <activity
-            android:name=".Activity.SplashActivity"
+            android:name="com.kheileang.downfbvid.Activity.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask">
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.kheileang.downfbvid.MainActivity"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask">
             <intent-filter>
@@ -56,12 +56,12 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.NoInternetActivity"
+        <activity android:name="com.kheileang.downfbvid.Activity.NoInternetActivity"
             android:launchMode="singleTask"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.downfbvid"
+            android:authorities="com.kheileang.downfbvid"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -1,4 +1,4 @@
-package com.example.downfbvid.Adapter;
+package com.kheileang.downfbvid.Adapter;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -17,10 +17,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.downfbvid.Activity.VideoPlayerActivity;
-import com.example.downfbvid.Interface.OnItemClickListener;
-import com.example.downfbvid.R;
-import com.example.downfbvid.Simple.Video;
+import com.kheileang.downfbvid.Activity.VideoPlayerActivity;
+import com.kheileang.downfbvid.Interface.OnItemClickListener;
+import com.kheileang.downfbvid.R;
+import com.kheileang.downfbvid.Simple.Video;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

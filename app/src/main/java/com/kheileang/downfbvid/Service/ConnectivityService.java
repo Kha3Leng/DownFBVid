@@ -1,9 +1,8 @@
-package com.example.downfbvid.Service;
+package com.kheileang.downfbvid.Service;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

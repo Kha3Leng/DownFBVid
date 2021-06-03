@@ -1,4 +1,4 @@
-package com.example.downfbvid.Interface;
+package com.kheileang.downfbvid.Interface;
 
 public interface VideoDownloader {
     String createDirectory();

@@ -1,4 +1,4 @@
-package com.example.downfbvid.Activity;
+package com.kheileang.downfbvid.Activity;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -14,9 +14,9 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.downfbvid.MainActivity;
-import com.example.downfbvid.R;
-import com.example.downfbvid.Service.ConnectivityService;
+import com.kheileang.downfbvid.MainActivity;
+import com.kheileang.downfbvid.R;
+import com.kheileang.downfbvid.Service.ConnectivityService;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;

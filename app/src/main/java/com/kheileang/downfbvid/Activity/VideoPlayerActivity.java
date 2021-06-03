@@ -1,4 +1,4 @@
-package com.example.downfbvid.Activity;
+package com.kheileang.downfbvid.Activity;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -8,8 +8,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.downfbvid.R;
-import com.example.downfbvid.Simple.Video;
+import com.kheileang.downfbvid.R;
+import com.kheileang.downfbvid.Simple.Video;
 import com.google.gson.Gson;
 
 import es.dmoral.toasty.Toasty;

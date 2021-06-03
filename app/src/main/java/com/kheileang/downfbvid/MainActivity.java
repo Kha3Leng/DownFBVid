@@ -1,4 +1,4 @@
-package com.example.downfbvid;
+package com.kheileang.downfbvid;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -26,12 +26,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.downfbvid.Activity.DownloadVideoActivity;
-import com.example.downfbvid.Activity.NoInternetActivity;
-import com.example.downfbvid.Activity.SettingActivity;
-import com.example.downfbvid.Downloader.FBVideoDownloader;
-import com.example.downfbvid.Service.ConnectivityService;
-import com.example.downfbvid.Simple.AdsManager;
+import com.kheileang.downfbvid.Activity.DownloadVideoActivity;
+import com.kheileang.downfbvid.Activity.NoInternetActivity;
+import com.kheileang.downfbvid.Activity.SettingActivity;
+import com.kheileang.downfbvid.Downloader.FBVideoDownloader;
+import com.kheileang.downfbvid.Service.ConnectivityService;
+import com.kheileang.downfbvid.Simple.AdsManager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;

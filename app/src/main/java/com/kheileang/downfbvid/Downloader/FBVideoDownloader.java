@@ -1,4 +1,4 @@
-package com.example.downfbvid.Downloader;
+package com.kheileang.downfbvid.Downloader;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
-import com.example.downfbvid.Interface.VideoDownloader;
+import com.kheileang.downfbvid.Interface.VideoDownloader;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;

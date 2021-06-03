@@ -1,4 +1,4 @@
-package com.example.downfbvid.Activity;
+package com.kheileang.downfbvid.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.downfbvid.R;
+import com.kheileang.downfbvid.R;
 
 import es.dmoral.toasty.Toasty;
 

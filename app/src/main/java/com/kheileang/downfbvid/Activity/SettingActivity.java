@@ -1,4 +1,4 @@
-package com.example.downfbvid.Activity;
+package com.kheileang.downfbvid.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.downfbvid.R;
-import com.example.downfbvid.Simple.AdsManager;
+import com.kheileang.downfbvid.R;
+import com.kheileang.downfbvid.Simple.AdsManager;
 import com.google.android.gms.ads.AdView;
 
 import es.dmoral.toasty.Toasty;
