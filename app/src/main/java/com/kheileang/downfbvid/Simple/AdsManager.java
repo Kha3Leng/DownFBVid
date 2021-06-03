@@ -29,7 +29,7 @@ public class AdsManager {
 
     public InterstitialAd getInterstitialAd(){
         this.interstitialAd = new InterstitialAd(context);
-        interstitialAd.setAdUnitId(AD_UNIT_ID);
+        interstitialAd.setAdUnitId("ca-app-pub-1589742015897303/4181765233/**/");
         interstitialAd.loadAd(getAdRequest());
         return interstitialAd;
     }

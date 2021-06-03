@@ -19,7 +19,7 @@
         android:theme="@style/Theme.DownFBVid">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-1589742015897303~1101533689"/>
         <activity android:name="com.kheileang.downfbvid.Activity.VideoPlayerActivity"
             android:launchMode="singleTask"
             android:parentActivityName="com.kheileang.downfbvid.Activity.DownloadVideoActivity"/>
